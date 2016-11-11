@@ -32,6 +32,10 @@ public class NewRC {
         capabilities.setCapability("testobject_api_key", "7F3422F7BE054B9FA5A9398C6341B76E");
         capabilities.setCapability("testobject_device", "HTC_One_real");
         capabilities.setCapability("testobject_appium_version", "1.5.2");
+        capabilities.setCapability("appWaitActivity", "com.ringcentral.android.LoginScreen");
+        capabilities.setCapability("appWaitPackage", "com.ringcentral.android");
+        capabilities.setCapability("appActivity", ".LoginScreen");
+        capabilities.setCapability("appPackage", "com.ringcentral.android");
 
         driver = new AndroidDriver(new URL("https://app.testobject.com:443/api/appium/wd/hub"), capabilities);
 

@@ -30,6 +30,10 @@ public class GlipOneDevice {
         capabilities.setCapability("testobject_api_key", "581C36AA6E254775906C1B1AE917C203");
         capabilities.setCapability("testobject_device", "Asus_Google_Nexus_7_2013_real");
         capabilities.setCapability("testobject_appium_version", "1.5.2");
+        capabilities.setCapability("appWaitActivity", "com.glip.ui.app.SplashScreenActivity");
+        capabilities.setCapability("appWaitPackage", "com.glip.mobile");
+        capabilities.setCapability("appPackage", "com.glip.mobile");
+        capabilities.setCapability("appActivity", "com.glip.ui.app.SplashScreenActivity");
 
         driver = new AndroidDriver(new URL("https://app.testobject.com:443/api/appium/wd/hub"), capabilities);
 
