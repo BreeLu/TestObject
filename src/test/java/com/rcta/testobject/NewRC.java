@@ -3,7 +3,6 @@ package com.rcta.testobject;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,27 +18,40 @@ import java.util.Date;
 
 public class NewRC {
     private AndroidDriver driver;
+
     private String number = "8552700002";
+
     private static String password = "Test!123";
+
     private static Logger logger = LoggerFactory.getLogger(DemoSuite.class);
 
     @Before
     public void setUp() throws Exception {
         // set up appium
         /* These are the capabilities we must provide to run our test on TestObject */
+//        DesiredCapabilities capabilities = new DesiredCapabilities();
+//        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+//        System.out.println("Begin set up: Current Date: " + ft.format(new Date()));
+//        capabilities.setCapability("testobject_api_key", "7F3422F7BE054B9FA5A9398C6341B76E");
+//        capabilities.setCapability("testobject_device", "HTC_One_real");
+//        capabilities.setCapability("testobject_appium_version", "1.5.2");
+//        capabilities.setCapability("appWaitActivity", "com.ringcentral.android.LoginScreen");
+//        capabilities.setCapability("appWaitPackage", "com.ringcentral.android");
+//        capabilities.setCapability("appActivity", ".LoginScreen");
+//        capabilities.setCapability("appPackage", "com.ringcentral.android");
+
+//        driver = new AndroidDriver(new URL("https://app.testobject.com:443/api/appium/wd/hub"), capabilities);
+        File classpathRoot = new File(System.getProperty("user.dir"));
+        File appDir = new File(classpathRoot, "apps");
+        File app = new File(appDir, "RCMobile.apk");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
-        System.out.println("Begin set up: Current Date: " + ft.format(new Date()));
-        capabilities.setCapability("testobject_api_key", "7F3422F7BE054B9FA5A9398C6341B76E");
-        capabilities.setCapability("testobject_device", "HTC_One_real");
-        capabilities.setCapability("testobject_appium_version", "1.5.2");
-        capabilities.setCapability("appWaitActivity", "com.ringcentral.android.LoginScreen");
-        capabilities.setCapability("appWaitPackage", "com.ringcentral.android");
-        capabilities.setCapability("appActivity", ".LoginScreen");
+        capabilities.setCapability("app", app.getAbsolutePath());
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("deviceName", "Android");
+        capabilities.setCapability("platformVersion", "6.0");
         capabilities.setCapability("appPackage", "com.ringcentral.android");
-
-        driver = new AndroidDriver(new URL("https://app.testobject.com:443/api/appium/wd/hub"), capabilities);
-
+        capabilities.setCapability("appActivity", ".LoginScreen");
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
     }
 
     @Test
@@ -46,7 +59,7 @@ public class NewRC {
         SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
         logger.info("Begin test: Current Date: " + ft.format(new Date()));
         processFirstLogin();
-        processLogOut();
+//        processLogOut();
     }
 
     private void processLogOut() throws Exception {
@@ -67,10 +80,10 @@ public class NewRC {
         Utils.clickElementByID(driver, "com.ringcentral.android:id/loginWithEmail");
         logger.info("Try to switch US ");
         Utils.clickElementByID(driver, "com.ringcentral.android:id/login_left_view");
-        logger.info("Choose US ");
-        Utils.clickElementByName(driver,"United States (+1)");
+        logger.info("Choose US by XPath ");
+        driver.findElementByXPath("//*[@text='United States (+1)']").click();
         logger.info("Begin to login with number ");
-        Utils.getElementByName(driver, "Phone number (digits only)").sendKeys(number);
+        Utils.getElementByID(driver, "com.ringcentral.android:id/phone").sendKeys(number);
         Utils.takeScreenshot(driver);
         Utils.clickElement(driver, ((MobileElement) driver.findElementsByClassName("android.widget.EditText").get(2)));
         logger.info("Begin to send password ");
@@ -81,7 +94,7 @@ public class NewRC {
         Utils.waitTimeAfterClick();
         Utils.clickElementByID(driver, "com.ringcentral.android:id/btnSignIn");
         logger.info("It need some time to login,then click Accept");
-        Utils.clickElementByID(driver,"com.ringcentral.android:id/btnAccept");
+        Utils.clickElementByID(driver, "com.ringcentral.android:id/btnAccept");
         logger.info("Click skip btn");
         if (Utils.getElementByID(driver, "com.ringcentral.android:id/whats_new_button_left") != null) {
             logger.info("Click skip btn by id");
@@ -94,88 +107,32 @@ public class NewRC {
         }
 
         logger.info("Try to find if exists OK button");
-        if (Utils.getElementByName(driver, "OK") != null) {
+        if (Utils.getElementByID(driver, "com.ringcentral.android:id/permission_ok_button") != null) {
             logger.info("**The device 's version >= 6.0,Click OK");
-            Utils.clickElementByName(driver, "OK");
+            Utils.clickElementByID(driver, "com.ringcentral.android:id/permission_ok_button");
             logger.info("Click Allow RignCentral to make and manage phone calls?");
-            Utils.clickElementByName(driver, "Allow");
+            Utils.clickElementByID(driver, "com.android.packageinstaller:id/permission_allow_button");
             logger.info("Click Allow RignCentral to record audio?");
-            Utils.clickElementByName(driver, "Allow");
+            Utils.clickElementByID(driver, "com.android.packageinstaller:id/permission_allow_button");
             logger.info("Click Allow RignCentral to access photos,media,and files on your device?");
-            Utils.clickElementByName(driver, "Allow");
+            Utils.clickElementByID(driver, "com.android.packageinstaller:id/permission_allow_button");
             logger.info("Click Allow RignCentral to access your contacts?");
-            Utils.clickElementByName(driver, "Allow");
+            Utils.clickElementByID(driver, "com.android.packageinstaller:id/permission_allow_button");
         }
-
-        if (Utils.getElementByName(driver, "Save") != null) {
-            logger.info("Clear device number ");
-            Utils.getElementByID(driver,"com.ringcentral.android:id/username_edit").clear();
-
-            logger.info("Send device number ");
-            Utils.getElementByID(driver,"com.ringcentral.android:id/username_edit").sendKeys("12345678901");
-            Utils.waitTimeAfterClick();
-
-            logger.info("Try to find if exists OK button");
-            if (Utils.getElementByName(driver, "OK") != null) {
-                logger.info("--Exists the pop up dialog");
-                Utils.clickElementByName(driver, "OK");
-            }
-            driver.hideKeyboard();
-            Utils.waitTimeAfterClick();
-            logger.info("Click Save btn ");
-            Utils.clickElementByName(driver, "Save");
-        } else if(Utils.getElementByID(driver,"com.ringcentral.android:id/mobile_phone_number")!=null){
+        if (Utils.getElementByID(driver, "com.ringcentral.android:id/mobile_phone_number") != null) {
             logger.info("Some account navigate to Account SetUp screen ");
-            Utils.getElementByID(driver,"com.ringcentral.android:id/mobile_phone_number").sendKeys("12345678901");
+            Utils.getElementByID(driver, "com.ringcentral.android:id/mobile_phone_number").sendKeys("12345678901");
             logger.info("Click Next Btn ");
-            Utils.getElementByID(driver,"com.ringcentral.android:id/btnTopRight").click();
+            Utils.getElementByID(driver, "com.ringcentral.android:id/btnTopRight").click();
             logger.info("Click Done Btn ");
-            Utils.getElementByName(driver, "Done").click();
+            Utils.clickElementByID(driver, "com.ringcentral.android:id/btnTopRight");
         } else {
             logger.info("Some device need not input device number");
         }
-
-        if (Utils.getElementByName(driver, "All Messages") == null) {
-            logger.info("Try to find if exists OK button");
-            if (Utils.getElementByName(driver, "OK") != null) {
-                logger.info("It pop up the important Information alert");
-                Utils.clickElementByName(driver, "OK");
-                Utils.waitTimeAfterClick();
-                logger.info("Click OK successfully");
-            }
-            if (Utils.getElementByName(driver, "OK") != null) {
-                logger.info("It pop up the Ignore optimizations alert");
-                Utils.clickElementByName(driver, "OK");
-                logger.info("Click OK successfully");
-            }
-            if (Utils.getElementByName(driver, "YES") != null) {
-                logger.info("It pop up the Ignore battery optimization alert,YES");
-                Utils.clickElementByName(driver, "YES");
-                logger.info("Click YES successfully");
-            }
-            if (Utils.getElementByName(driver, "Yes") != null) {
-                logger.info("It pop up the Ignore battery optimization alert,Yes");
-                Utils.clickElementByName(driver, "Yes");
-                logger.info("Click Yes successfully");
-            }
-            if (Utils.getElementByName(driver, "Ok") != null) {
-                logger.info("It pop up the Ignore battery optimization alert,Yes");
-                Utils.clickElementByName(driver, "Ok");
-                logger.info("---Click Ok successfully");
-            }
-            if (Utils.getElementByName(driver, "ok") != null) {
-                logger.info("It pop up the Ignore battery optimization alert,Yes");
-                Utils.clickElementByName(driver, "ok");
-                logger.info("---Click ok successfully");
-            }
-        }
-        String title = Utils.getElementByName(driver, "All Messages").getText();
-        Utils.takeScreenshot(driver);
-        assertEquals(title, "All Messages");
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         driver.quit();
     }
 
