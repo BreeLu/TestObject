@@ -1,1 +1,33 @@
+group 'com.ta.testobject'
+version '1.0-SNAPSHOT'
 
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group:'io.appium',name:'java-client',version:'3.3.0'
+    testCompile group:'org.seleniumhq.selenium',name:'selenium-server',version:'2.50.1'
+    testCompile group:'org.testng',name:'testng',version:'6.9.6'
+//    testCompile 'org.testobject:testobject-appium-java-api:0.0.19'
+    testCompile group:'org.testobject',name:'testobject-appium-java-api',version:'0.0.24'
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
+
+
+}
+
+task runSuite(type:Test) {
+//    useJUnit {
+//
+//    }
+    include '**/DemoSuite.class'
+    testLogging.showStandardStreams = true
+
+
+}
