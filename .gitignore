@@ -1,0 +1,9 @@
+gradle/*
+.idea/*
+apps/*
+tools/*
+build/*
+log/*
+TestObject.iml
+*.apk
+.gradle/*
