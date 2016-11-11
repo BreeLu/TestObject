@@ -27,7 +27,7 @@ public class NewRCSuite {
     private AndroidDriver driver;
     private String number = "8552700002";
     private static String password = "Test!123";
-    private static Logger logger = LoggerFactory.getLogger(DemoSuite.class);
+    private static Logger logger = LoggerFactory.getLogger(NewRCSuite.class);
 
     @Rule
     public TestName testName = new TestName();
