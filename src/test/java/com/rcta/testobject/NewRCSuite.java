@@ -44,6 +44,10 @@ public class NewRCSuite {
         System.out.println("Begin set up: Current Date: " + ft.format(new Date()));
         capabilities.setCapability("testobject_api_key", resultWatcher.getApiKey());
         capabilities.setCapability("testobject_test_report_id", resultWatcher.getTestReportId());
+        capabilities.setCapability("appWaitActivity", "com.ringcentral.android.LoginScreen");
+        capabilities.setCapability("appWaitPackage", "com.ringcentral.android");
+        capabilities.setCapability("appActivity", ".LoginScreen");
+        capabilities.setCapability("appPackage", "com.ringcentral.android");
 
         driver = new AndroidDriver(new URL("https://app.testobject.com:443/api/appium/wd/hub"), capabilities);
         resultWatcher.setAppiumDriver(driver);
