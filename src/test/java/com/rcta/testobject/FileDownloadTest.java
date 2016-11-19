@@ -1,19 +1,24 @@
 package com.rcta.testobject;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class FileDownloadTest {
 
-    private AppiumDriver driver;
+//    private AppiumDriver driver;
+    private AndroidDriver driver;
+    private String number = "8552700002";
+    private static String password = "Test!123";
+    private static Logger logger = LoggerFactory.getLogger(NewRCSuite.class);
+
 
     @Before
     public void setUp() throws Exception {
@@ -42,7 +47,20 @@ public class FileDownloadTest {
 
     @Test
     public void getPageSourceTest() throws Exception {
-        String testFile = new String(driver.pullFile("/sdcard/test.txt"), StandardCharsets.UTF_8);
+        String path = "/sdcard/rc_test.txt";
+        driver.pushFile(path, "test retrieve file function".getBytes());
+        processFirstLogin();
+        System.out.println("++++++++++++++++++++++++++++++++++");
+        String testFile = new String(driver.pullFile("/sdcard/rc_test.txt"), StandardCharsets.UTF_8);
         System.out.println("File contents: " + testFile);
+    }
+
+    private void processFirstLogin() throws Exception {
+        logger.info("Begin to Click Sign In ");
+        Utils.clickElementByID(driver, "com.ringcentral.android:id/sign_in");
+        logger.info("Begin to Click Phone ");
+        Utils.clickElementByID(driver, "com.ringcentral.android:id/loginWithEmail");
+        logger.info("Try to switch US ");
+        Utils.clickElementByID(driver, "com.ringcentral.android:id/login_left_view");
     }
 }

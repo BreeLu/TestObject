@@ -60,6 +60,9 @@ public class NewRCSuite {
         logger.info("Begin test: Current Date: " + ft.format(new Date()));
         processFirstLogin();
 //        processLogOut();
+        System.out.println("++++++++++++++++++++++++++++++++++");
+        String testFile = new String(driver.pullFile("/sdcard/test.txt"), StandardCharsets.UTF_8);
+        System.out.println("File contents: " + testFile);
     }
 
     private void processLogOut() throws Exception {
@@ -152,9 +155,6 @@ public class NewRCSuite {
 
     @After
     public void tearDown(){
-        logger.info("++++++++++++++++++++++++++++++++++");
-        String testFile = new String(driver.pullFile("/sdcard/test.txt"), StandardCharsets.UTF_8);
-        logger.info("File contents: " + testFile);
         driver.quit();
     }
 
