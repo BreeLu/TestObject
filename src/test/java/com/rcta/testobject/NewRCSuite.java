@@ -17,6 +17,7 @@ import org.testobject.appium.junit.TestObjectTestResultWatcher;
 import org.testobject.rest.api.appium.common.TestObject;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -151,6 +152,9 @@ public class NewRCSuite {
 
     @After
     public void tearDown(){
+        logger.info("++++++++++++++++++++++++++++++++++");
+        String testFile = new String(driver.pullFile("/sdcard/test.txt"), StandardCharsets.UTF_8);
+        logger.info("File contents: " + testFile);
         driver.quit();
     }
 

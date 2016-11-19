@@ -24,6 +24,10 @@ public class FileDownloadTest {
         capabilities.setCapability("testobject_device", "Lenovo_TAB_2_A10_70F_real");
         capabilities.setCapability("testobject_app_id", 1);
         capabilities.setCapability("testobject_appium_version", "1.6.0");
+        capabilities.setCapability("appWaitActivity", "com.ringcentral.android.LoginScreen");
+        capabilities.setCapability("appWaitPackage", "com.ringcentral.android");
+        capabilities.setCapability("appActivity", ".LoginScreen");
+        capabilities.setCapability("appPackage", "com.ringcentral.android");
 
         driver = new AndroidDriver(new URL("http://appium.testobject.com/wd/hub"), capabilities);
 
